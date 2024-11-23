@@ -14,7 +14,7 @@ def index_page(request):
 # si el opcional de favoritos no está desarrollado, devuelve un listado vacío.
 def home(request):
     images = services.getAllImages() #Función getAllImages que retorna una lista con las card.
-    favourite_list = []
+    favourite_list = services.getAllFavourites(request) #función getAllFavourites de services. esta función retorna los favs del usuario en formato card.
 
     return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
 
@@ -46,16 +46,18 @@ def login (request):
 # Estas funciones se usan cuando el usuario está logueado en la aplicación.
 @login_required
 def getAllFavouritesByUser(request):
-    favourite_list = []
+    favourite_list = services.getAllFavourites(request) #traigo la función que retorna la lista de favs del usuario desde services.
     return render(request, 'favourites.html', { 'favourite_list': favourite_list })
 
 @login_required
 def saveFavourite(request):
-    pass
+   fav = services.saveFavourite(request) #traigo la función desde services y así guardo el personaje en fav.
+   return redirect('home')  #Lo redirigo a la plantilla de home.
 
 @login_required
 def deleteFavourite(request):
-    pass
+    delete = services.deleteFavourite(request)
+    return redirect('/favourites/') #Lo redirigo a la plantilla de favoritos.
 
 @login_required
 def exit(request):
