@@ -4,6 +4,8 @@ from django.shortcuts import redirect, render
 from .layers.services import services
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login  #authenticate para verificar credenciales / login para iniciar sesión
+
 
 def index_page(request):
     return render(request, 'index.html')
@@ -27,6 +29,19 @@ def search(request):
     else:
         return redirect('home')
 
+def login (request):
+    if request.method == 'POST':                           # Verifica si el usuario envió el formulario (método POST)
+        username = request.POST.get('username')            # Obtiene el nombre de usuario del formulario
+        password = request.POST.get('password')            # Obtiene la contraseña del formulario
+        user = authenticate(request, username=username, password=password)    # Verifica si las credenciales son correctas
+        
+        if user is not None:                              # Si el usuario existe y las credenciales son correctas
+            login(request, user)                          # Inicia la sesión del usuario
+            return redirect('home')                       # Redirige al usuario a la página de inicio
+        
+    
+    return render(request, 'registration/login.html')     # Si es GET o si hubo error, muestra el formulario de login
+
 
 # Estas funciones se usan cuando el usuario está logueado en la aplicación.
 @login_required
@@ -44,4 +59,5 @@ def deleteFavourite(request):
 
 @login_required
 def exit(request):
-    pass
+    logout(request)                             #Función de Django para cerrar sesion
+    return render(request, 'index.html')        #Vuelve al index.html
