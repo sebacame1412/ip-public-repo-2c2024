@@ -47,16 +47,16 @@ def login (request):
 @login_required
 def getAllFavouritesByUser(request):
     favourite_list = services.getAllFavourites(request) #traigo la función que retorna la lista de favs del usuario desde services.
-    return render(request, 'favourites.html', { 'favourite_list': favourite_list })
+    return render(request, 'favourites.html', { 'favourite_list': favourite_list }) #lo muestro en el templates favourites.html
 
 @login_required
 def saveFavourite(request):
-   fav = services.saveFavourite(request) #traigo la función desde services y así guardo el personaje en fav.
+   fav = services.saveFavourite(request) #Desde services traigo la función que me permite guardar el personaje en la base de datos. 
    return redirect('home')  #Lo redirigo a la plantilla de home.
 
 @login_required
 def deleteFavourite(request):
-    delete = services.deleteFavourite(request)
+    delete = services.deleteFavourite(request) #Desde services traigo la función que me permite borrar un favorito por su ID.
     return redirect('/favourites/') #Lo redirigo a la plantilla de favoritos.
 
 @login_required
