@@ -13,9 +13,9 @@ def getAllImages(input=None):
     images = []
     
     for o in json_collection:
-        card = translator.fromRequestIntoCard(o) #Combierte los objetos de la variable json_collection en card con la función fromRequestIntoCard de la carpeta translator.
+        card = translator.fromRequestIntoCard(o) #Convierte los objetos de la variable json_collection en card con la función fromRequestIntoCard de la carpeta translator.
         if card: #Si existe una card.
-            images.append(card) #Agrega el objeto combertido en la lista images.
+            images.append(card) #Agrega la card en la lista images.
 
     return images
 
@@ -37,9 +37,9 @@ def getAllFavourites(request):
         favourite_list = repositories.getAllFavourites(user) #buscamos desde el repositories.py TODOS los favoritos del usuario (variable 'user').
         mapped_favourites = []
 
-        for favourite in favourite_list:
+        for favourite in favourite_list: #recorro cada favorito del usuario.
             card = translator.fromRepositoryIntoCard(favourite) # transformamos cada favorito en una Card, y lo almacenamos en card.
-            mapped_favourites.append(card)  
+            mapped_favourites.append(card)   #a cada favorito en formato card lo agrego a la lista mapped_favourites.
 
         return mapped_favourites
 
